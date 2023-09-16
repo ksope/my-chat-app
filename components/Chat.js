@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
 const Chat = ({ route, navigation }) => {
@@ -6,8 +6,7 @@ const Chat = ({ route, navigation }) => {
 
     useEffect(() => {
         navigation.setOptions({
-            //update the options configuration for the active screen
-            title: name, //set header title
+            title: name,
             headerStyle: {
                 backgroundColor: color, //set the background color
             },
@@ -16,7 +15,7 @@ const Chat = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text>Hello Screen2!</Text>
+            <Text>Hello {name}</Text>
         </View>
     );
 };
