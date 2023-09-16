@@ -1,4 +1,6 @@
 import { useState } from "react";
+//import Firebase authentication handle
+import { getAuth, signInAnonymously } from "firebase/auth";
 import {
     StyleSheet,
     View,
@@ -22,6 +24,21 @@ const Start = ({ navigation }) => {
         b: "#474056",
         c: "#8A95A5",
         d: "#B9C6AE",
+    };
+    const auth = getAuth(); //Initialize Firebase Authentication handler
+    const signInUser = () => {
+        signInAnonymously(auth)
+            .then((result) => {
+                navigation.navigate("Chat", {
+                    userID: result.user.uid,
+                    name: name,
+                    color: color,
+                });
+                Alert.alert("Signed in Successfully!");
+            })
+            .catch((error) => {
+                Alert.alert("Unable to sign in, try later again.");
+            });
     };
 
     return (
@@ -120,12 +137,7 @@ const Start = ({ navigation }) => {
                         accessibilityHint="Takes you to group chat."
                         accessibilityRole="button"
                         style={styles.button}
-                        onPress={() =>
-                            navigation.navigate("Chat", {
-                                name: name,
-                                color: color,
-                            })
-                        }
+                        onPress={signInUser}
                     >
                         <Text style={styles.textStyle}>Start Chatting</Text>
                     </TouchableOpacity>
