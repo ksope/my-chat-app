@@ -1,24 +1,22 @@
-import React from "react";
 import { useState } from "react";
+import {
+    StyleSheet,
+    View,
+    Text,
+    Button,
+    TextInput,
+    ImageBackground,
+    TouchableOpacity,
+    Image,
+    textInput,
+} from "react-native";
 import image from "../assets/BackgroundImage.png";
 import icon from "../assets/person1.png";
-import {
-    ImageBackground,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-    Image,
-    Text,
-    TextInput,
-} from "react-native";
 
 const Start = ({ navigation }) => {
     const [name, setName] = useState("");
     const [color, setColor] = useState("");
 
-    {
-        /*menu for colors used to set background color in Chat screen */
-    }
     const screenBackgroundColors = {
         a: "#090C08",
         b: "#474056",
@@ -26,21 +24,6 @@ const Start = ({ navigation }) => {
         d: "#B9C6AE",
     };
 
-    {
-        /*load external google fonts in array */
-    }
-    let [fontsLoaded] = useFonts({
-        Poppins_400Regular,
-        Poppins_500Medium,
-        Poppins_700Bold,
-    });
-
-    {
-        /*no external fonts to use if failed to load into array */
-    }
-    if (!fontsLoaded) {
-        return null;
-    }
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -59,7 +42,6 @@ const Start = ({ navigation }) => {
                             placeholder="Type your username here"
                         />
                     </View>
-
                     <View style={styles.box2}>
                         <Text style={[styles.lightGrey, styles.poppinsText]}>
                             Choose Background Color:
@@ -132,7 +114,6 @@ const Start = ({ navigation }) => {
                             ></TouchableOpacity>
                         </View>
                     </View>
-
                     <TouchableOpacity
                         accessible={true}
                         accessibilityLabel="Go to chat screen"
@@ -179,7 +160,7 @@ const styles = StyleSheet.create({
         padding: 15,
         width: "100%",
         margin: "0 0 0 30",
-        fontFamily: "Poppins_500Medium",
+        fontFamily: "sans-serif",
         color: "#bcbcbc",
     },
     button: {
@@ -196,7 +177,7 @@ const styles = StyleSheet.create({
         bottom: "6%",
     },
     titleText: {
-        fontFamily: "Poppins_700Bold",
+        fontFamily: "sans-serif",
         fontSize: 45,
         fontWeight: "600",
         color: "#fff",
@@ -215,7 +196,7 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         color: "#fff",
-        fontFamily: "Poppins_500Medium",
+        fontFamily: "sans-serif",
         fontWeight: "400",
     },
 
@@ -242,7 +223,7 @@ const styles = StyleSheet.create({
         opacity: 0.5,
     },
     poppinsText: {
-        fontFamily: "Poppins_500Medium",
+        fontFamily: "sans-serif",
     },
     sectionStyle: {
         flexDirection: "row",
