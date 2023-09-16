@@ -13,6 +13,9 @@ import { getFirestore } from "firebase/firestore";
 // Create the navigator
 const Stack = createNativeStackNavigator();
 
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["AsyncStorage has been extracted from"]); //prevent deprecated error message from appearing
+
 export default function App() {
     const firebaseConfig = {
         apiKey: "AIzaSyBTRTniwDNVMDstvhiaHBGlRokNbL2iYhE",
