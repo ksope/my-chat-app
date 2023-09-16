@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
     StyleSheet,
     View,
@@ -12,31 +12,13 @@ const Chat = ({ route, navigation }) => {
     const [messages, setMessages] = useState([]);
     const { name, color } = route.params; //extract the name & color properties passed through the route prop object
 
-    //add new messages sent to previous messages sent
-    const onSend = (newMessages) => {
-        setMessages((previousMessages) =>
-            GiftedChat.append(previousMessages, newMessages)
-        );
-    };
-
-    //handle how message bubbles are displayed
-    const renderBubble = (props) => {
-        return (
-            <Bubble
-                {...props}
-                wrapperStyle={{
-                    right: {
-                        backgroundColor: "a5a869",
-                    },
-                    left: {
-                        backgroundColor: "#C9CAA5",
-                    },
-                }}
-            />
-        );
-    };
-
     useEffect(() => {
+        navigation.setOptions({
+            title: name, //set header title
+            headerStyle: {
+                backgroundColor: color, //set the background color
+            },
+        });
         setMessages([
             {
                 _id: 1,
@@ -57,17 +39,32 @@ const Chat = ({ route, navigation }) => {
         ]);
     }, []);
 
-    useEffect(() => {
-        navigation.setOptions({
-            title: name, //set header title
-            headerStyle: {
-                backgroundColor: color, //set the background color
-            },
-        });
-    }, []);
+    //add new messages sent to previous messages sent
+    const onSend = (newMessages) => {
+        setMessages((previousMessages) =>
+            GiftedChat.append(previousMessages, newMessages)
+        );
+    };
+
+    //handle how message bubbles are displayed
+    const renderBubble = (props) => {
+        return (
+            <Bubble
+                {...props}
+                wrapperStyle={{
+                    right: {
+                        backgroundColor: "#a5a869",
+                    },
+                    left: {
+                        backgroundColor: "#C9CAA5",
+                    },
+                }}
+            />
+        );
+    };
 
     return (
-        <View>
+        <View style={styles.container}>
             <GiftedChat
                 messages={messages}
                 renderBubble={renderBubble}
@@ -86,8 +83,6 @@ const Chat = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
     },
 });
 
