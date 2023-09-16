@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
         width: 25,
         resizeMode: "stretch",
         alignItems: "center",
-        color: "#bcbcbc",
+        color: "#fff",
     },
 });
 
