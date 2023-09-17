@@ -17,9 +17,10 @@ import {
 } from "firebase/firestore";
 
 const Chat = ({ route, navigation, db }) => {
-    const [messages, setMessages] = useState([]);
     const { name, color, userID } = route.params; //extract the name & color properties passed through the route prop object
+    const [messages, setMessages] = useState([]);
 
+    //get realtime updates
     useEffect(() => {
         navigation.setOptions({
             title: name, //set header title
@@ -27,10 +28,6 @@ const Chat = ({ route, navigation, db }) => {
                 backgroundColor: color, //set the background color
             },
         });
-    }, []);
-
-    //get realtime updates
-    useEffect(() => {
         const q = query(
             collection(db, "messages"),
             orderBy("createdAt", "desc")
@@ -44,7 +41,7 @@ const Chat = ({ route, navigation, db }) => {
                     createdAt: new Date(doc.data().createdAt.toMillis()),
                 });
             });
-            setMessages(newMessages);  //assign to the messages state
+            setMessages(newMessages); //assign to the messages state
         });
         // Clean up code
         return () => {
@@ -74,7 +71,7 @@ const Chat = ({ route, navigation, db }) => {
     };
 
     return (
-        <View>
+        <View style={styles.container}>
             <GiftedChat
                 messages={messages}
                 renderBubble={renderBubble}
