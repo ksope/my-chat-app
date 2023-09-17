@@ -9,6 +9,7 @@ import {
     TextInput,
     ImageBackground,
     TouchableOpacity,
+    Alert,
     Image,
     textInput,
 } from "react-native";
@@ -258,7 +259,6 @@ const styles = StyleSheet.create({
         width: 25,
         resizeMode: "stretch",
         alignItems: "center",
-        color: "#fff",
     },
 });
 
