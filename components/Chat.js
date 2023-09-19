@@ -17,10 +17,12 @@ import {
 } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Chat = ({ route, navigation, db }) => {
+const Chat = ({ route, navigation, db, isConnected }) => {
     const { name, color, userID } = route.params; //extract the name & color properties passed through the route prop object
     const [messages, setMessages] = useState([]);
 
+    //declare listener
+    let unsubMessages;
     //get realtime updates
     useEffect(() => {
         navigation.setOptions({
@@ -29,27 +31,35 @@ const Chat = ({ route, navigation, db }) => {
                 backgroundColor: color, //set the background color
             },
         });
-        const q = query(
-            collection(db, "messages"),
-            orderBy("createdAt", "desc")
-        ); // query the messages collection and sort query in descending order
-        const unsubMessages = onSnapshot(q, (documentsSnapshot) => {
-            let newMessages = [];
-            documentsSnapshot.forEach((doc) => {
-                newMessages.push({
-                    id: doc.id,
-                    ...doc.data(),
-                    createdAt: new Date(doc.data().createdAt.toMillis()),
+        
+        //if online, get messages from FireStore database else if offline, get messages from AsyncStorage
+        if (isConnected === true) {
+            // unregister current onSnapshot() listener to avoid registering multiple listeners when
+            // useEffect code is re-executed.
+            if (unsubMessages) unsubMessages();
+            unsubMessages = null;
+            const q = query(
+                collection(db, "messages"),
+                orderBy("createdAt", "desc")
+            ); // query the messages collection and sort query in descending order
+            unsubMessages = onSnapshot(q, (documentsSnapshot) => {
+                let newMessages = [];
+                documentsSnapshot.forEach((doc) => {
+                    newMessages.push({
+                        id: doc.id,
+                        ...doc.data(),
+                        createdAt: new Date(doc.data().createdAt.toMillis()),
+                    });
                 });
+                cacheMessages(newMessages);
+                setMessages(newMessages); //assign to the messages state
             });
-            cacheMessages(newMessages);
-            setMessages(newMessages); //assign to the messages state
-        });
+        } else loadCachedMessages();
         // Clean up code
         return () => {
             if (unsubMessages) unsubMessages();
         };
-    }, []); //useEffect hook takes effect when there is a change in the state of messages
+    }, [isConnected]); //useEffect hook takes effect when there is a change in the state of messages
 
     const cacheMessages = async (messagesToCache) => {
         try {
@@ -57,6 +67,12 @@ const Chat = ({ route, navigation, db }) => {
         } catch (error) {
             console.log(error.message);
         }
+    };
+
+    //load messages from AsyncStorage
+    const loadCachedMessages = async () => {
+        const cachedMessages = (await AsyncStorage.getItem("messages")) || [];
+        setMessages(JSON.parse(cachedMessages));
     };
 
     const onSend = (newMessages) => {
