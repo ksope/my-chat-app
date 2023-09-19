@@ -15,6 +15,7 @@ import {
     query,
     orderBy,
 } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Chat = ({ route, navigation, db }) => {
     const { name, color, userID } = route.params; //extract the name & color properties passed through the route prop object
