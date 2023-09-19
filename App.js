@@ -7,6 +7,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 //initialize connection to Firestore
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+//detect whether user is online or offline
+import { useNetInfo } from "@react-native-community/netinfo";
 
 // Create the navigator
 const Stack = createNativeStackNavigator();
