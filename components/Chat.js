@@ -6,7 +6,7 @@ import {
     KeyboardAvoidingView,
     Platform,
 } from "react-native";
-import { GiftedChat, Bubble } from "react-native-gifted-chat";
+import { GiftedChat, Bubble, InputToolbar } from "react-native-gifted-chat";
 import {
     collection,
     getDocs,
@@ -79,6 +79,12 @@ const Chat = ({ route, navigation, db, isConnected }) => {
         addDoc(collection(db, "messages"), newMessages[0]); //Add new messages to the database and auto-generate an ID
     };
 
+    //disable the InputToolbar when there is no connection
+    const renderInputToolbar = (props) => {
+        if (isConnected) return <InputToolbar {...props} />;
+        else return null;
+    };
+
     //handle how message bubbles are displayed
     const renderBubble = (props) => {
         return (
@@ -103,6 +109,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
                 renderBubble={renderBubble}
                 onSend={(messages) => onSend(messages)}
                 user={{ _id: userID, name }}
+                renderInputToolbar={renderInputToolbar}
             />
             {Platform.OS === "android" ? (
                 <KeyboardAvoidingView behavior="height" />
