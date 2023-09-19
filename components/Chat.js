@@ -42,6 +42,7 @@ const Chat = ({ route, navigation, db }) => {
                     createdAt: new Date(doc.data().createdAt.toMillis()),
                 });
             });
+            cacheMessages(newMessages);
             setMessages(newMessages); //assign to the messages state
         });
         // Clean up code
@@ -49,6 +50,14 @@ const Chat = ({ route, navigation, db }) => {
             if (unsubMessages) unsubMessages();
         };
     }, []); //useEffect hook takes effect when there is a change in the state of messages
+
+    const cacheMessages = async (messagesToCache) => {
+        try {
+            await AsyncStorage.setItem("messages", JSON.stringify(newMessages));
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
 
     const onSend = (newMessages) => {
         addDoc(collection(db, "messages"), newMessages[0]); //Add new messages to the database and auto-generate an ID
