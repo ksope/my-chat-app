@@ -17,6 +17,7 @@ import {
 } from "firebase/firestore";
 import CustomActions from "./CustomActions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import MapView from "react-native-maps";
 
 const Chat = ({ route, navigation, db, isConnected }) => {
     const { name, color, userID } = route.params; //extract the name & color properties passed through the route prop object
@@ -91,6 +92,30 @@ const Chat = ({ route, navigation, db, isConnected }) => {
         return <CustomActions {...props} />;
     };
 
+    //check if current message contains location data
+    const renderCustomView = (props) => {
+        const { currentMessage } = props;
+        if (currentMessage.location) {
+            return (
+                <MapView
+                    style={{
+                        width: 150,
+                        height: 100,
+                        borderRadius: 13,
+                        margin: 3,
+                    }}
+                    region={{
+                        latitude: currentMessage.location.latitude,
+                        longitude: currentMessage.location.longitude,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                />
+            );
+        }
+        return null;
+    };
+
     //handle how message bubbles are displayed
     const renderBubble = (props) => {
         return (
@@ -117,6 +142,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
                 user={{ _id: userID, name }}
                 renderInputToolbar={renderInputToolbar}
                 renderActions={renderCustomActions}
+                renderCustomView={renderCustomView}
             />
             {Platform.OS === "android" ? (
                 <KeyboardAvoidingView behavior="height" />
