@@ -15,6 +15,7 @@ import {
     query,
     orderBy,
 } from "firebase/firestore";
+import CustomActions from "./CustomActions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Chat = ({ route, navigation, db, isConnected }) => {
@@ -31,7 +32,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
                 backgroundColor: color, //set the background color
             },
         });
-        
+
         //if online, get messages from FireStore database else if offline, get messages from AsyncStorage
         if (isConnected === true) {
             // unregister current onSnapshot() listener to avoid registering multiple listeners when
@@ -85,6 +86,11 @@ const Chat = ({ route, navigation, db, isConnected }) => {
         else return null;
     };
 
+    //create a circle button
+    const renderCustomActions = (props) => {
+        return <CustomActions {...props} />;
+    };
+
     //handle how message bubbles are displayed
     const renderBubble = (props) => {
         return (
@@ -110,6 +116,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
                 onSend={(messages) => onSend(messages)}
                 user={{ _id: userID, name }}
                 renderInputToolbar={renderInputToolbar}
+                renderActions={renderCustomActions}
             />
             {Platform.OS === "android" ? (
                 <KeyboardAvoidingView behavior="height" />
