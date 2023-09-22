@@ -89,7 +89,7 @@ const Chat = ({ route, navigation, db, isConnected, storage }) => {
 
     //create a circle button
     const renderCustomActions = (props) => {
-        return <CustomAction storage={storage} {...props} />;
+        return <CustomActions userID={userID} storage={storage} {...props} />;
     };
 
     //check if current message contains location data
