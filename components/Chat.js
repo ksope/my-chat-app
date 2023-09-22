@@ -19,7 +19,7 @@ import CustomActions from "./CustomActions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapView from "react-native-maps";
 
-const Chat = ({ route, navigation, db, isConnected }) => {
+const Chat = ({ route, navigation, db, isConnected, storage }) => {
     const { name, color, userID } = route.params; //extract the name & color properties passed through the route prop object
     const [messages, setMessages] = useState([]);
 
@@ -89,7 +89,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
 
     //create a circle button
     const renderCustomActions = (props) => {
-        return <CustomActions {...props} />;
+        return <CustomAction storage={storage} {...props} />;
     };
 
     //check if current message contains location data
