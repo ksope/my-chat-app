@@ -14,6 +14,7 @@ import {
 //detect whether user is online or offline
 import { useNetInfo } from "@react-native-community/netinfo";
 import { useEffect } from "react";
+import {getStorage} from "firebase/storage";
 // Create the navigator
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,7 @@ export default function App() {
 
     // Initialize Cloud Firestore and get a reference to the service
     const db = getFirestore(app);
+    const storage = getStorage(app);
 
     return (
         <NavigationContainer>
@@ -56,6 +58,7 @@ export default function App() {
                         <Chat
                             isConnected={connectionStatus.isConnected}
                             db={db}
+                            storage={storage}
                             {...props}
                         />
                     )}
