@@ -1,6 +1,14 @@
 // import the screens
 import Start from "./components/Start";
 import Chat from "./components/Chat";
+import {
+    API_KEY,
+    AUTH_DOMAIN,
+    PROJECT_ID,
+    STORAGE_BUCKET,
+    MSG_SNDR_ID,
+    APP_ID,
+} from "@env";
 // import react Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -14,7 +22,7 @@ import {
 //detect whether user is online or offline
 import { useNetInfo } from "@react-native-community/netinfo";
 import { useEffect } from "react";
-import {getStorage} from "firebase/storage";
+import { getStorage } from "firebase/storage";
 // Create the navigator
 const Stack = createNativeStackNavigator();
 
@@ -34,12 +42,12 @@ export default function App() {
     }, [connectionStatus.isConnected]); //track connection and display alert and disable fireStore database connection if connection is lost and reconnect when connection is restored
 
     const firebaseConfig = {
-        apiKey: "AIzaSyBTRTniwDNVMDstvhiaHBGlRokNbL2iYhE",
-        authDomain: "chat-app-3546a.firebaseapp.com",
-        projectId: "chat-app-3546a",
-        storageBucket: "chat-app-3546a.appspot.com",
-        messagingSenderId: "26443162518",
-        appId: "1:26443162518:web:cfcf2be3e7b7d8e0e973b7",
+        apiKey: API_KEY,
+        authDomain: AUTH_DOMAIN,
+        projectId: PROJECT_ID,
+        storageBucket: STORAGE_BUCKET,
+        messagingSenderId: MSG_SNDR_ID,
+        appId: APP_ID,
     };
 
     // Initialize Firebase
